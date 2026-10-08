@@ -16,7 +16,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between">
             <h1 class="text-2xl">
-                <span class="font-light">Namaste,</span>
+                <span class="font-light">Welcome to SmartCivic,</span>
                 <%= user.name %> 🙏🏻
             </h1>
 
@@ -37,7 +37,7 @@
                 <textarea
                     name="content"
                     class="block p-3 outline-none resize-none bg-transparent border border-zinc-700 w-1/2 h-32 rounded-md focus:border-zinc-500"
-                    placeholder="What's on your mind?"></textarea>
+                    placeholder="What civic issue did you notice?"></textarea>
 
                 <input
                     class="block px-5 py-2 bg-blue-500 rounded-md mt-3 hover:bg-blue-600 cursor-pointer transition"
@@ -66,8 +66,9 @@
                     <p class="text-zinc-300  tracking-tight " >
                          <%= post.content %> 
                     </p>
-                    <div class=" flex mt-2 gap-4">
-                        <a class="text-red-500">Like</a>
+                    <small class=" mt-2 inline-block text-zinc-400 "><%= post.likes.length %>likes</small>
+                    <div class=" flex mt-2 gap-4 mt-1  ">
+                        <a class="text-red-500" href="/like/<%=post._id%>">Like</a>
                         <a class="text-red-500">Edit</a>
                     </div>
                     

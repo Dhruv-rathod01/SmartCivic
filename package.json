@@ -17,6 +17,14 @@
     "ejs": "^7.0.1",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.11.0"
-  }
+    "mongoose": "^9.11.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dhruv-rathod01/ThinkVise.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Dhruv-rathod01/ThinkVise/issues"
+  },
+  "homepage": "https://github.com/Dhruv-rathod01/ThinkVise#readme"
 }
