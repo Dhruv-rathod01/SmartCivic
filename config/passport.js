@@ -25,7 +25,7 @@ passport.use(
                 if (!user) {
                     user = await userModel.findOne({ email });
 
-                    // Do not silently link an existing password account.
+                    
                     if (user) {
                         return done(null, false);
                     }

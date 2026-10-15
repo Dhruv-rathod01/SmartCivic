@@ -7,9 +7,10 @@ const userModel = require("../models/user");
 const showLogin = (req, res) => {
 
     res.render("login", {
-        message: null
+        message: null,
+        messagelimit: null
     });
-
+   
 };
 const forgot = (req,res)=>{
     res.render("forgot-password");

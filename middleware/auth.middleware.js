@@ -1,5 +1,8 @@
 const jwt = require("jsonwebtoken");
 
+const { request } = require("express");
+
+//loginprevent
 function isLoggedin(req, res, next) {
 
     if (!req.cookies.token) {
@@ -23,5 +26,7 @@ function isLoggedin(req, res, next) {
 
     }
 }
+
+
 
 module.exports = isLoggedin;

@@ -8,15 +8,18 @@ const {
     logout,
     forgot
 } = require("../controllers/auth.controller");
+const rateLimit = require("../middleware/rateLimit.middleware");
 
-router.get("/login", showLogin);
+router.get("/login",showLogin);
 
-router.post("/login", login);
+router.post("/login",rateLimit,  login);
 
 router.get("/forgot-password", forgot);
 
-router.post("/register", register);
+router.post("/register",rateLimit, register);
 
 router.get("/logout", logout);
+
+
 
 module.exports = router;
