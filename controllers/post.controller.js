@@ -11,7 +11,6 @@ const createPost = async (req, res) => {
     let { content } = req.body;
 
     let post = await postModel.create({
-
         user: user._id,
         content
 

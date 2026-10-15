@@ -8,7 +8,7 @@ const {
 
 const isLoggedin = require("../middleware/auth.middleware");
 
-router.get("/", home);
+router.get("/register", home);
 
 router.get("/profile", isLoggedin, profile);
 

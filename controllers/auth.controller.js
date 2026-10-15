@@ -11,7 +11,9 @@ const showLogin = (req, res) => {
     });
 
 };
-
+const forgot = (req,res)=>{
+    res.render("forgot-password");
+}
 
 const login = async (req, res) => {
 
@@ -116,5 +118,6 @@ module.exports = {
     showLogin,
     login,
     register,
-    logout
+    logout,
+    forgot
 };
