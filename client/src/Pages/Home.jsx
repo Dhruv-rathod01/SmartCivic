@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Nav from "../Components/Nav";
 import Sidebar from "../Components/Sidebar";
+import { FaSearch } from "react-icons/fa";
 
 const Home = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -41,14 +42,24 @@ const Home = () => {
           <Sidebar />
         </div>
 
-        <main className="min-w-0 flex-1 p-8 text-white">
+        <main className=" flex-1 p-8 text-white">
           <h1 className="text-3xl font-bold">
             Find Issues in Your City
           </h1>
           <p className="mt-2 text-zinc-400">
-            Report civic issues and help make your community better.
+            Report civic issues and help make your community better...
           </p>
+          <div className="mt-5 flex w-full items-center gap-3">
+          <div className="flex items-center gap-3 w-3/4 rounded-xl border border-zinc-700 bg-[#0b1714] px-4 py-3 focus-within:border-emerald-500 ">
+            <FaSearch  />
+          <input className=" bg-transparent  text-white outline-none"  type='text' placeholder="Search issues, location" ></input> 
+          </div>
+           <button className="rounded-xl bg-emerald-500 cursor-text px-9 py-3 text-white hover:bg-emerald-600">Search</button>
+           </div>
+           <h1 className="mt-10 text-3xl font-semibold"> Recent Issues</h1>
         </main>
+        
+       
       </div>
     </div>
   );
