@@ -4,18 +4,6 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/user");
 
 
-const showLogin = (req, res) => {
-
-    res.render("login", {
-        message: null,
-        messagelimit: null
-    });
-   
-};
-const forgot = (req,res)=>{
-    res.render("forgot-password");
-}
-
 const login = async (req, res) => {
 
     let { email, password } = req.body;
@@ -23,7 +11,7 @@ const login = async (req, res) => {
     let user = await userModel.findOne({ email });
 
     if (!user) {
-        return res.status(404).render("login", {
+        return res.status(404).json( {
             message: "Something went wrong"
         });
     }
@@ -42,12 +30,16 @@ const login = async (req, res) => {
 
             res.cookie("token", token);
 
-            res.status(200).redirect("/profile");
+            res.status(200).json({
+                 success: true,
+                message:"Login successfully"
+                
+            });
 
         } else {
 
-            res.render("login", {
-                message: "Something went wrong"
+            res.status(401).json( {
+                message: "Invalid email or password"
             });
 
         }
@@ -62,7 +54,6 @@ const register = async (req, res) => {
     let {
         username,
         name,
-        age,
         email,
         password
     } = req.body;
@@ -70,7 +61,7 @@ const register = async (req, res) => {
     let existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
-        return res.status(409).send("User already exists");
+        return res.status(409).json({message: "User already exists"});
     }
 
     bcrypt.genSalt(10, async (err, salt) => {
@@ -81,7 +72,6 @@ const register = async (req, res) => {
 
                 username,
                 name,
-                age,
                 email,
                 password: hash
 
@@ -97,7 +87,10 @@ const register = async (req, res) => {
 
             res.cookie("token", token);
 
-            res.redirect("/profile");
+          return res.status(200).json({
+        success: true,
+        message: "Registration successful"
+      });
 
         });
 
@@ -107,18 +100,17 @@ const register = async (req, res) => {
 
 
 const logout = (req, res) => {
-
     res.cookie("token", "");
-
-    res.redirect("/login");
+    res.status(200).json({
+        success: true,
+        message : "Logout successfully"
+    })
 
 };
 
 
 module.exports = {
-    showLogin,
     login,
     register,
     logout,
-    forgot
 };

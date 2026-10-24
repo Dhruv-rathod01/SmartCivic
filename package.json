@@ -11,8 +11,10 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
     "dotenv": "^18.0.6",
     "ejs": "^7.0.1",
     "express": "^5.2.1",
@@ -21,7 +23,8 @@
     "mongoose": "^9.11.1",
     "nodemailer": "^10.0.16",
     "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "tailwindcss": "^4.3.3"
   },
   "repository": {
     "type": "git",

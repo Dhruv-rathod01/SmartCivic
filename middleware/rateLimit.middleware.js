@@ -1,9 +1,5 @@
 //const rateLimit = require("express-rate-limit");
 
-
-
-
-
 //rateLimit
 const requestCounts = {};
 function rateLimit(req,res,next){
@@ -11,7 +7,7 @@ function rateLimit(req,res,next){
         const ip =req.ip;
         const currentTime = Date.now();
         const WindowMs = 60*1000;
-        const limit = 5;
+        const limit = 3;
     if(requestCounts[ip]==undefined){
        requestCounts[ip]={
         count:1,
@@ -29,7 +25,7 @@ function rateLimit(req,res,next){
 }
    if(data.count>=limit){
     const remainTime = Math.ceil((WindowMs-(currentTime-data.startTime))/1000);
-      return res.status(429).render("login", {
+      return res.status(429).json({
         message: `Too many requests. Try again after ${remainTime} seconds.`
     });
 

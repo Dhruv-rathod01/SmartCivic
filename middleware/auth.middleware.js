@@ -1,32 +1,29 @@
+
 const jwt = require("jsonwebtoken");
 
-const { request } = require("express");
-
-//loginprevent
 function isLoggedin(req, res, next) {
+    const token = req.cookies.token;
 
-    if (!req.cookies.token) {
-        return res.redirect("/login");
+    if (!token) {
+        return res.status(401).json({
+            message: "Please login first"
+        });
     }
 
     try {
-
-        let data = jwt.verify(
-            req.cookies.token,
+        const data = jwt.verify(
+            token,
             process.env.JWT_SECRET
         );
 
         req.user = data;
-
         next();
 
     } catch (error) {
-
-        return res.redirect("/login");
-
+        return res.status(401).json({
+            message: "Invalid or expired token"
+        });
     }
 }
-
-
 
 module.exports = isLoggedin;
