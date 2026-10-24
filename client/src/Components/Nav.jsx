@@ -1,7 +1,10 @@
 
 import {FaLandmark, FaBell,FaUser,FaBars,} from "react-icons/fa";
+import {Link} from "react-router-dom";
+import { useState } from "react";
 
 const Nav = ({ onMenuClick }) => {
+  const [active, setActive] = useState(false);
   return (
     <nav className="flex h-16 items-center justify-between border-b border-white/10 bg-[#091310] px-6 text-white">
       <div className="flex items-center gap-4">
@@ -18,9 +21,17 @@ const Nav = ({ onMenuClick }) => {
       </div>
 
       <div className="flex items-center gap-6">
-        <FaBell className="cursor-pointer text-zinc-300" />
+       <FaBell
+        onClick={() => setActive(!active)}
+        className={`cursor-pointer ${
+          active ? "text-yellow-400" : "text-zinc-300"
+        }`}
+      />
         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-700">
-          <FaUser />
+            <Link to="/profile">
+            <FaUser className="cursor-pointer" /></Link>
+        
+          
         </div>
       </div>
     </nav>
