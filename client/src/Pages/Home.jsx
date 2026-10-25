@@ -25,9 +25,8 @@ const Home = () => {
       });
   }, []);
 
-  if (loading) {
-    return <p className="bg-[#050d0b] min-h-screen text-white p-8">Loading...</p>;
-  }
+  
+
 
   return (
     <div className="w-full min-h-screen bg-[#050d0b]">
@@ -42,22 +41,47 @@ const Home = () => {
           <Sidebar />
         </div>
 
-        <main className=" flex-1 p-8 text-white">
-          <h1 className="text-3xl font-bold">
-            Find Issues in Your City
-          </h1>
-          <p className="mt-2 text-zinc-400">
-            Report civic issues and help make your community better...
-          </p>
-          <div className="mt-5 flex w-full items-center gap-3">
-          <div className="flex items-center gap-3 w-3/4 rounded-xl border border-zinc-700 bg-[#0b1714] px-4 py-3 focus-within:border-emerald-500 ">
-            <FaSearch  />
-          <input className=" bg-transparent  text-white outline-none"  type='text' placeholder="Search issues, location" ></input> 
+        
+      <main className="flex-1 p-8 text-white">
+        {loading ? (
+          <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-zinc-700 border-t-emerald-400" />
+            <p className="text-sm text-zinc-400">
+              Loading your dashboard...
+            </p>
           </div>
-           <button className="rounded-xl bg-emerald-500 cursor-text px-9 py-3 text-white hover:bg-emerald-600">Search</button>
-           </div>
-           <h1 className="mt-10 text-3xl font-semibold"> Recent Issues</h1>
-        </main>
+        ) : (
+          <>
+            <h1 className="text-3xl font-bold">
+              Find Issues in Your City
+            </h1>
+
+            <p className="mt-2 text-zinc-400">
+              Report civic issues and help make your community better...
+            </p>
+
+            <div className="mt-5 flex w-full items-center gap-3">
+              <div className="flex w-3/4 items-center gap-3 rounded-xl border border-zinc-700 bg-[#0b1714] px-4 py-3 focus-within:border-emerald-500">
+                <FaSearch />
+                <input
+                  className="w-full bg-transparent text-white outline-none"
+                  type="text"
+                  placeholder="Search issues, location"
+                />
+              </div>
+
+              <button className="cursor-pointer rounded-xl bg-emerald-500 px-9 py-3 text-white hover:bg-emerald-600">
+                Search
+              </button>
+            </div>
+
+            <h2 className="mt-10 text-3xl font-semibold">
+              Recent Issues
+            </h2>
+          </>
+        )}
+      </main>
+
         
        
       </div>
