@@ -7,6 +7,7 @@ import ForgotPassword from "./Pages/Forgot-Password";
 import Report from "./Pages/Report-issue";
 import Myreport from "./Pages/My-reports";
 import Browseissue from "./Pages/Browse-issues";
+import Complain from "./Pages/Complain"
 import { Routes, Route } from "react-router-dom";
 
 const App =()=>{
@@ -21,6 +22,7 @@ const App =()=>{
   <Route path="/report-issue" element={<Report />} />
   <Route path="/my-reports" element={<Myreport />} />
   <Route path="/browse-issues" element={<Browseissue />} />
+  <Route path="/complain" element={<Complain />} />
 </Routes>
     </div>
   );

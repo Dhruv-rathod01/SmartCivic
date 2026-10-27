@@ -6,7 +6,7 @@ import { useState } from "react";
 const Nav = ({ onMenuClick }) => {
   const [active, setActive] = useState(false);
   return (
-    <nav className="flex h-16 items-center justify-between border-b border-white/10 bg-[#091310] px-6 text-white">
+   <nav className="fixed left-0 right-0 top-0 z-50 flex h-16 items-center justify-between border-b border-white/10 bg-[#091310] px-6 text-white">
       <div className="flex items-center gap-4">
         <button onClick={onMenuClick}>
            <FaBars className="cursor-pointer text-xl hover:text-emerald-400" />

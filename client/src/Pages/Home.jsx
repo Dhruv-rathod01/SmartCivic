@@ -29,17 +29,17 @@ const Home = () => {
 
 
   return (
-    <div className="w-full min-h-screen bg-[#050d0b]">
+    <div className="w-full min-h-screen bg-[#050d0b] pt-16">
       <Nav onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
 
-      <div className="flex">
-        <div
-          className={`shrink-0 overflow-hidden duration-300 ${
-            sidebarOpen ? "w-60" : "w-0"
-          }`}
-        >
-          <Sidebar />
-        </div>
+          <div className="flex">
+      <div
+        className={`shrink-0 transition-all duration-300 ${
+          sidebarOpen ? "w-60" : "w-0"
+        }`}
+      >
+        {sidebarOpen && <Sidebar />}
+      </div>
 
         
       <main className="flex-1 p-8 text-white">

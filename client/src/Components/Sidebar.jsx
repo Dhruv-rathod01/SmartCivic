@@ -21,7 +21,7 @@ const Sidebar = () => {
   
 
 return (
-    <aside className="fixed left-0 top-16 flex h-[calc(100vh-4rem)] w-60 flex-col bg-[#091310] p-4 text-white sticky top-16 flex h-[calc(100vh-4rem)] w-60 shrink-0 flex-col overflow-y-auto bg-[#091310] p-4 text-white">
+    <aside className="fixed left-0 top-16 z-40 flex h-[calc(100vh-4rem)] w-60 flex-col overflow-y-auto bg-[#091310] p-4 text-white">
       <div>
         {items.map((item) => (
           <Link
