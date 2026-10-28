@@ -1,6 +1,7 @@
 import Nav from "../Components/Nav";
 import Sidebar from "../Components/Sidebar";
 import categories from "../Components/Categories";
+import axios from "axios";
 import { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 
@@ -9,16 +10,39 @@ const Complain = () => {
   const [photo, setPhoto] = useState(null);
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
+  const [submitted,setSubmitted] = useState("false");
+  const[loding,setLoding] = useState("false")
+  const[error , setError]= useState("")
+   
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-
+    try{
+        const formData = new FormData();
+        formData.append("category", category);
+        formData.append("description", description);
+        if (photo) {
+        formData.append("photo", photo);
+        }
+        const response = await axios.post(
+        (`${API_URL}/post`, FormData),
+        { category, description, photo },
+        { withCredentials: true }
+    );
     console.log({
       photo,
       category,
       description,
     });
-
+         if (response.data.success === true) {
+              console.log("Receive")
+            }
+        } catch(error){
+            console.log(error.response?.data?.message);
+            setError(
+              error.response?.data?.message || "Registration failed. Please try again."
+            );
+        }
    
   };
 
@@ -83,7 +107,7 @@ const Complain = () => {
                     required
                     className="hidden"
                     onChange={(e) =>
-                      setPhoto(e.target.files?.[0] || null)
+                      setPhoto(e.target.files[0] || null)
                     }
                   />
                 </label>

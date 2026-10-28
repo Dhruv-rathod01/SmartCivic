@@ -3,6 +3,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { MdEmail } from "react-icons/md";
+import { FaLock,FaUser} from "react-icons/fa";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -23,7 +25,7 @@ const Login = () => {
       </h1>
 
       <p className="mb-8 text-center text-sm text-zinc-400">
-        Welcome back! Please login.
+        Welcome Back ! Login to continue making your city better.
       </p>
 
       <form onSubmit={async (e)=>{
@@ -59,39 +61,48 @@ const Login = () => {
       }
 
       } >
-        <div className="mb-5">
-          
+        <div className="relative mb-5">
+          <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+    size={20}/>
 
           <input
             type="text"
             name="username"
             value={username} onChange={(e) => SetUsername(e.target.value)}
+            required
             placeholder="Enter your username"
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none transition focus:border-emerald-400"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-3 pl-12 pr-4 outline-none transition focus:border-emerald-400"
           />
         </div>
 
-        <div className="mb-5">
-          
+        <div className=" relative mb-5">
+          <MdEmail className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+    size={20} />
 
           <input
             type="email"
             name="email"
             value={email} onChange={(e) => SetEmail(e.target.value)}
+            required
             placeholder="Enter your email"
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none transition focus:border-emerald-400"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-3 pl-12 pr-4 outline-none transition focus:border-emerald-400"
           />
         </div>
 
-        <div className="mb-6">
-    
+        <div className="relative mb-6">
+       <FaLock 
+    className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+    size={20}
+  />
 
           <input
             type="password"
             name="password"
             value={password} onChange={(e) => SetPassword(e.target.value)}
+            required
+        
             placeholder="Enter your password"
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none transition focus:border-emerald-400"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-3 pl-12 pr-4 outline-none transition focus:border-emerald-400"
           />
         </div>
          {error &&( <p className=" px-4 py-3 text-center text-sm font-medium text-red-400"

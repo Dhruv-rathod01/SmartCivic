@@ -34,21 +34,32 @@ return (
           </Link>
         ))}
       </div>
-<button
-  onClick={async () => {
-    const response = await axios.get(
-      `${API_URL}/logout`,
-      { withCredentials: true }
-    );
+      <button
+        onClick={async () => {
+          const confirmLogout = window.confirm(
+            "Are you sure you want to logout?"
+          );
 
-    if (response.data.success) {
-      navigate("/login");
-    }
-  }}
-  className="flex items-center gap-4 rounded-lg px-4 py-3 hover:bg-emerald-400"
->
-  <TbLogout2 className="text-xl" />
-  Logout
+          if (!confirmLogout) return;
+
+          try {
+            const response = await axios.get(
+              `${API_URL}/logout`,
+              { withCredentials: true }
+            );
+
+            if (response.data.success) {
+              alert("Logout successful!");
+              navigate("/login", { replace: true });
+            }
+          } catch (error) {
+            alert("Logout failed. Please try again.");
+          }
+        }}
+        className="flex items-center gap-4 rounded-lg px-4 py-3 hover:bg-emerald-400"
+      >
+        <TbLogout2 className="text-xl" />
+        Logout
 </button>
         
           </aside>

@@ -24,10 +24,6 @@ const Home = () => {
         navigate("/login", { replace: true });
       });
   }, []);
-
-  
-
-
   return (
     <div className="w-full min-h-screen bg-[#050d0b] pt-16">
       <Nav onMenuClick={() => setSidebarOpen(!sidebarOpen)} />

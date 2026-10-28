@@ -8,11 +8,12 @@ const createPost = async (req, res) => {
         email: req.user.email
     });
 
-    let { content } = req.body;
+    let { description,category } = req.body;
 
     let post = await postModel.create({
         user: user._id,
-        content
+        description,
+        category
 
     });
 
@@ -20,7 +21,10 @@ const createPost = async (req, res) => {
 
     await user.save();
 
-    res.redirect("/profile");
+    return res.status(200).json({
+        success: true,
+        message: "Thank you for your respose"
+      });
 };
 
 

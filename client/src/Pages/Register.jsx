@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { MdEmail } from "react-icons/md";
+import { FaLock,FaUser,FaUserCircle} from "react-icons/fa";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -52,43 +54,58 @@ const Register = () => {
           }
         }}
       >
-        <div className="mb-4">
+        <div className="relative mb-4">
+          <FaUserCircle className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+              size={20}/>
           <input
             type="text"
             name="name"
             value={name} onChange={(e)=> setName(e.target.value)}
+            required
             placeholder="Enter your name"
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none transition focus:border-emerald-400"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-800  py-3 pl-12 outline-none transition focus:border-emerald-400"
           />
         </div>
 
-        <div className="mb-4">
+        <div className="relative mb-4">
+           <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+              size={20}/>
           <input
             type="text"
             name="username"
             value={username} onChange={(e) => setUsername(e.target.value)}
+            required
             placeholder="Choose a username"
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none transition focus:border-emerald-400"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-800  py-3 pl-12  outline-none transition focus:border-emerald-400"
           />
         </div>
 
-        <div className="mb-4">
+        <div className="relative mb-4">
+           <MdEmail className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+              size={20} />
           <input
             type="email"
             name="email"
             value={email} onChange={(e) => setEmail(e.target.value)}
+            required
             placeholder="Enter your email"
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none transition focus:border-emerald-400"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-3 pl-12 outline-none transition focus:border-emerald-400"
           />
         </div>
 
-        <div className="mb-6">
+        <div className="relative mb-6">
+           <FaLock 
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+              size={20}
+            />
+          
           <input
             type="password"
             name="password"
             value={password} onChange={(e)=> setPassword(e.target.value)}
+            required
             placeholder="Create a strong password"
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none transition focus:border-emerald-400"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-800  py-3 pl-12 outline-none transition focus:border-emerald-400"
           />
         </div>
          {error && (

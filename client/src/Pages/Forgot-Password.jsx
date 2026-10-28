@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { MdEmail } from "react-icons/md";
 
 const ForgotPassword = () => {
   return (
@@ -14,13 +15,15 @@ const ForgotPassword = () => {
       </p>
 
       <form>
-        <div className="mb-6">
+        <div className=" relative mb-6">
+           <MdEmail className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400"
+                        size={20} />
           <input
             type="email"
             name="email"
             placeholder="Enter your registered email"
             required
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none transition focus:border-emerald-400"
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-3 pl-12 outline-none transition focus:border-emerald-400"
           />
         </div>
 

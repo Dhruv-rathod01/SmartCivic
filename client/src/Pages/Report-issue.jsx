@@ -1,11 +1,13 @@
-import { Link } from "react-router-dom";
 import Nav from "../Components/Nav";
 import Sidebar from "../Components/Sidebar";
 import categories from "../Components/Categories";
-import {useState} from "react";
+import {Link,useNavigate } from "react-router-dom";
+import {useState,useEffect} from "react";
+
 
 const Report = () => {
    const [sidebarOpen, setSidebarOpen] = useState(true);
+ 
   return (
     <div className="w-full min-h-screen bg-[#050d0b] pt-16">
       <Nav onMenuClick={()=> setSidebarOpen(!sidebarOpen)} 
