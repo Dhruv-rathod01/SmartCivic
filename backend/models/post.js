@@ -16,6 +16,11 @@ const postSchema=  mongoose.Schema({
   type: String,
   default: "",
 },
+status: {
+  type: String,
+  enum: ["Pending", "In Progress", "Resolved"],
+  default: "Pending"
+},
     likes: [
         {
           type: mongoose.Schema.Types.ObjectId,

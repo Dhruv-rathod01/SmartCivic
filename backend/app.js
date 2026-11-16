@@ -1,3 +1,6 @@
+const dns = require("node:dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const passport = require('./config/passport');
@@ -18,7 +21,10 @@ app.use(cors({
     origin: "http://localhost:5173",
      credentials: true
 }));
-
+app.use(
+    "/uploads",
+    express.static(path.join(__dirname, "uploads"))
+);
 
 app.use(express.static(path.join(__dirname, "public")));
 

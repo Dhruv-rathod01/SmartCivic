@@ -28,7 +28,23 @@ const createPost = async (req, res) => {
       });
 };
 
+const getMyReports = async(req,res)=>{
+    try{
+       
+         let data = await postModel.find({user: req.user.userid}).sort({ date: -1 });
 
+         return res.status(200).json({
+            success: true,
+            reports : data
+         });
+    } catch(error){
+        return res.status(500).json({
+      success: false,
+      message: error.message
+    });
+    }
+   
+}
 const likePost = async (req, res) => {
 
     let post = await postModel
@@ -56,5 +72,6 @@ const likePost = async (req, res) => {
 
 module.exports = {
     createPost,
-    likePost
+    likePost,
+    getMyReports
 };
