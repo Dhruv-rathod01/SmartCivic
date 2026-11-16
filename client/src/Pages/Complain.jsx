@@ -3,48 +3,80 @@ import Sidebar from "../Components/Sidebar";
 import categories from "../Components/Categories";
 import axios from "axios";
 import { useState } from "react";
-import { FaCloudUploadAlt } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+import { FaCloudUploadAlt, FaCamera } from "react-icons/fa";
 
 const Complain = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
+  const loc = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [photo, setPhoto] = useState(null);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState( loc.state ? loc.state.selectedCategory : "");
+  const [location , setLocation] = useState("")
   const [description, setDescription] = useState("");
-  const [submitted,setSubmitted] = useState("false");
-  const[loding,setLoding] = useState("false")
-  const[error , setError]= useState("")
-   
+  const [submitted,setSubmitted] = useState(false);
+  const [loading,setLoading] = useState(false)
+  const [error , setError]= useState("")
+  const playClickSound = () => {
+  const audio = new Audio("/audio/sent.mp3");
+  audio.volume = 1.0;
+  audio.play();
+};
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    try{
-        const formData = new FormData();
-        formData.append("category", category);
-        formData.append("description", description);
-        if (photo) {
-        formData.append("photo", photo);
-        }
-        const response = await axios.post(
-        (`${API_URL}/post`, FormData),
-        { category, description, photo },
-        { withCredentials: true }
-    );
-    console.log({
-      photo,
-      category,
-      description,
-    });
-         if (response.data.success === true) {
-              console.log("Receive")
+ 
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+          setLoading(true);
+          setError("");
+
+          const formData = new FormData();
+          formData.append("category", category);
+          formData.append("description", description);
+          formData.append("location", location);
+
+          if (photo) {
+            formData.append("photo", photo);
+          }
+
+          const response = await axios.post(
+            `${API_URL}/post`,
+            formData,
+            {
+              withCredentials: true
             }
-        } catch(error){
-            console.log(error.response?.data?.message);
-            setError(
-              error.response?.data?.message || "Registration failed. Please try again."
-            );
+          );
+
+          if (response.data.success === true) {
+             playClickSound();
+            setSubmitted(true);
+            setPhoto(null);
+            setCategory("");
+            setLocation("");
+            setDescription("");
+
+            
+            document.getElementById("issuePhoto").value = "";
+            document.getElementById("cameraPhoto").value = "";
+
+            
+            setTimeout(() => {
+              setSubmitted(false);
+            }, 3000);
+          }
+
+        } catch (error) {
+          console.log(error.response?.data?.message || error.message);
+
+          setError(
+            error.response?.data?.message || "Report submission failed."
+          );
+        } finally {
+          setLoading(false);
         }
-   
-  };
+      };
+
 
   return (
     <div className="min-h-screen w-full bg-[#050d0b] pt-16">
@@ -75,43 +107,66 @@ const Complain = () => {
             </div>
 
             <form onSubmit={handleSubmit}>
+              
              
-              <div className="mb-6">
-                <label className="mb-3 block text-sm font-semibold text-white">
-                  Issue Photo <span className="text-red-400">*</span>
-                </label>
+            <div className="mb-6">
+              <label className="mb-3 block text-sm font-semibold text-white">
+                Issue Photo <span className="text-red-400">*</span>
+              </label>
 
-                <label
-                  htmlFor="issuePhoto"
-                  className="flex min-h-52 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-700 p-6 text-center transition hover:border-emerald-400 hover:bg-emerald-400/5"
-                >
-                  <FaCloudUploadAlt className="mb-4 text-4xl text-emerald-400" />
+              <div className="rounded-xl border-2 border-dashed border-slate-700 p-6 text-center transition hover:border-emerald-400">
+                <FaCloudUploadAlt className="mx-auto mb-3 text-4xl text-emerald-400" />
 
-                  <p className="text-base font-medium text-white">
-                    {photo ? photo.name : "Click to upload a photo"}
-                  </p>
+                <p className="text-base font-medium text-white">
+                  {photo ? photo.name : "Upload your issue photo"}
+                </p>
 
-                  <p className="mt-2 text-sm text-zinc-400">
-                    Upload a clear picture of the reported issue
-                  </p>
+                <p className="mt-2 text-sm text-zinc-400">
+                  Choose an existing image or capture a new one
+                </p>
 
-                  <p className="mt-1 text-xs text-zinc-500">
-                    PNG, JPG or JPEG
-                  </p>
+                <p className="mt-1 text-xs text-zinc-500">
+                  PNG, JPG or JPEG
+                </p>
 
-                  <input
-                    type="file"
-                    id="issuePhoto"
-                    name="issuePhoto"
-                    accept="image/png,image/jpeg"
-                    required
-                    className="hidden"
-                    onChange={(e) =>
-                      setPhoto(e.target.files[0] || null)
-                    }
-                  />
-                </label>
+                <div className="mt-5 flex items-center justify-center gap-3">
+                  <label
+                    htmlFor="issuePhoto"
+                    className="cursor-pointer rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-black transition hover:bg-emerald-400"
+                  >
+                    Choose Photo
+                  </label>
+
+                  <label
+                    htmlFor="cameraPhoto"
+                    className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-emerald-500/50 px-4 py-2 text-sm font-medium text-emerald-400 transition hover:bg-emerald-500/10"
+                  >
+                    <FaCamera />
+                    Take Photo
+                  </label>
+                </div>
+
+                <input
+                  type="file"
+                  id="issuePhoto"
+                  name="issuePhoto"
+                  accept="image/png,image/jpeg"
+                  required={!photo}
+                  className="hidden"
+                  onChange={(e) => setPhoto(e.target.files?.[0] || null)}
+                />
+
+                <input
+                  type="file"
+                  id="cameraPhoto"
+                  accept="image/*"
+                  capture="environment"
+                  className="hidden"
+                  onChange={(e) => setPhoto(e.target.files?.[0] || null)}
+                />
               </div>
+            </div>
+
 
     
               <div className="mb-6">
@@ -140,8 +195,22 @@ const Complain = () => {
                     </option>
                   ))}
                 </select>
-              </div>
 
+              </div>
+               <div className="mb-6">
+                   <label htmlFor="location"
+                   className="mb-2 block text-sm font-semibold text-white"
+                   > Location </label>
+                   <input type="text"
+                   id="location"
+                   name="location"
+                   value={location}
+                   onChange={(e)=> setLocation(e.target.value)}
+                   placeholder="Enter your location"
+                   required
+                    className="w-full rounded-lg border border-slate-800 bg-[#091310] px-4 py-3 text-white outline-none transition focus:border-emerald-500"
+                   />
+               </div>
     
               <div className="mb-6">
                 <label
@@ -164,12 +233,17 @@ const Complain = () => {
               </div>
 
              
-              <button
-                type="submit"
-                className="mt-2 w-full rounded-lg border-none bg-emerald-500 px-4 py-3 font-semibold text-white outline-none transition hover:bg-emerald-600 focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050d0b]"
-              >
-                Submit Report
-              </button>
+                    <button
+          type="submit"
+          disabled={loading || submitted}
+          className="mt-2 w-full rounded-lg bg-emerald-500 px-4 py-3 font-semibold text-white transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {loading
+            ? "Submitting..."
+            : submitted
+            ? "✓ Thank You!"
+            : "Submit Report"}
+        </button>
             </form>
           </section>
         </main>

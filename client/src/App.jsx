@@ -16,10 +16,10 @@ const App =()=>{
     <div className="min-h-screen bg-zinc-900 flex items-center justify-center">
       <Routes>
   <Route path="/login" element={<Login />} />
+   <Route path="/forgot-password" element={<ForgotPassword />} />
+  <Route path="/Register" element={<Register />} />
   <Route element={<ProtectedRoute />}>
   <Route path="/home" element={<Home />} />
-  <Route path="/forgot-password" element={<ForgotPassword />} />
-  <Route path="/Register" element={<Register />} />
   <Route path="/profile" element={<Profile />} />
   <Route path="/report-issue" element={<Report />} />
   <Route path="/my-reports" element={<Myreport />} />

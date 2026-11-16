@@ -21,12 +21,12 @@ const Report = () => {
     {sidebarOpen && <Sidebar />}
   </div>
 
-            <main className="min-w-0 flex-1 p-5 text-white md:p-8 lg:p-10">
-        <h1 className="text-3xl font-bold tracking-tighter">
-          Citizen Dashboard
-        </h1>
+            <main className="min-w-0 flex-1 p-5 text-white md:p-8 lg:p-8">
+        <h1 className="text-3xl font-bold md:text-4xl">
+                Rase a <span className="text-emerald-400">Concern</span> 
+              </h1>
         <p className="mt-2 text-zinc-400">
-          Track your reports and see community issues.
+          Report local issues and contribute to a better community.
         </p>
         <section className="mt-10 rounded-xl border border-slate-800 p-5 md:p-7">
           <h2 className=" text-2xl font-bold" >Report a New Issue</h2>
@@ -36,6 +36,7 @@ const Report = () => {
             <Link
               key={category.title}
               to="/complain"
+               state={{ selectedCategory: category.title }}
               className="rounded-xl border border-slate-800 p-5 text-center hover:border-emerald-500"
             >
               <category.icon className="mx-auto mb-4 text-3xl text-emerald-500" />

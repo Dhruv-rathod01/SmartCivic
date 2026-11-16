@@ -56,9 +56,9 @@ return (
             alert("Logout failed. Please try again.");
           }
         }}
-        className="flex items-center gap-4 rounded-lg px-4 py-3 hover:bg-emerald-400"
+        className="flex cursor-pointer items-center gap-4 rounded-lg px-4 py-3 text-red-400 "
       >
-        <TbLogout2 className="text-xl" />
+        <TbLogout2 className="text-xl text-red-400" />
         Logout
 </button>
         

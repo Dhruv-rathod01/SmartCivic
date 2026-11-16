@@ -9,7 +9,11 @@ import {
   FaBuilding,
   FaDog,
   FaToilet,
+   FaBolt,
+  FaVolumeUp,
+  FaEllipsisH,
 } from "react-icons/fa";
+import { FaMosquito } from "react-icons/fa6";
 
 export const categories = [
   {
@@ -49,11 +53,29 @@ export const categories = [
     icon: FaLightbulb,
     path: "/report/streetlights",
   },
+    {
+    title: "Mosquito Control",
+    description: "Mosquito breeding, stagnant water, and insect infestations.",
+    icon: FaMosquito,
+    path: "/report/mosquito",
+  },
   {
     title: "Parks & Trees",
     description: "Fallen trees, park maintenance.",
     icon: FaTree,
     path: "/report/parks",
+  },
+    {
+    title: "Electricity Issues",
+    description: "Exposed wires, damaged poles, and power-related hazards.",
+    icon: FaBolt,
+    path: "/report/electricity",
+  },
+  {
+    title: "Noise Pollution",
+    description: "Excessive noise from construction, loudspeakers, and traffic.",
+    icon: FaVolumeUp,
+    path: "/report/noise",
   },
   {
     title: "Illegal Constructions",
@@ -73,5 +95,11 @@ export const categories = [
     icon: FaToilet,
     path: "/report/sanitation",
   },
+  {
+  title: "Other Issues",
+  description: "Report civic problems not covered by the listed categories.",
+  icon: FaEllipsisH,
+  path: "/report/other",
+},
 ];
 export default categories;
