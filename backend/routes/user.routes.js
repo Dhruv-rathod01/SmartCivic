@@ -3,13 +3,14 @@ const router = express.Router();
 
 const {
     home,
-    reportissue,
+    profile,
 } = require("../controllers/user.controller");
 
 const isLoggedin = require("../middleware/auth.middleware");
 
 
 router.get("/home", isLoggedin, home);
+router.get('/profile' , isLoggedin, profile)
 
 
 module.exports = router;  
