@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaHome, FaFileAlt, FaClipboardList, FaSearch, FaUser} from "react-icons/fa";
+import { IoHelpCircle } from "react-icons/io5";
 import { TbLogout2 } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -14,8 +15,8 @@ const Sidebar = () => {
     { name: "Home", path: "/home", icon: <FaHome className="cursor-pointer text-xl hover:text-emerald-400"/> },
     { name: "Report Issue", path: "/report-issue", icon: <FaFileAlt className="cursor-pointer text-xl hover:text-emerald-400" /> },
     { name: "My Reports", path: "/my-reports", icon: <FaClipboardList className="cursor-pointer text-xl hover:text-emerald-400" /> },
-    { name: "Browse Issues", path: "/browse-issues", icon: <FaSearch className="cursor-pointer text-xl hover:text-emerald-400" /> },
     { name: "Profile", path: "/profile", icon: <FaUser className="cursor-pointer text-xl hover:text-emerald-400" /> },
+    { name: "Help", path: "/help", icon: <IoHelpCircle className="cursor-pointer text-xl hover:text-emerald-400" /> },
     
   ];
   

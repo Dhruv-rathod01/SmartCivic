@@ -2,7 +2,7 @@ import Nav from "../Components/Nav";
 import Sidebar from "../Components/Sidebar";
 import {useState} from "react"
 
-const Browseissue = () => {
+const Help = () => {
    const [sidebarOpen, setSidebarOpen] = useState(true);
   return (
     <div className="w-full min-h-screen bg-[#050d0b] pt-16">
@@ -17,11 +17,11 @@ const Browseissue = () => {
           {sidebarOpen && <Sidebar />}
         </div>
             <h1 className="p-10 text-3xl font-bold text-white">
-        Browse issues
+        Help
       </h1>
     </div>
     </div>
   );
 };
 
-export default Browseissue;
+export default Help;
