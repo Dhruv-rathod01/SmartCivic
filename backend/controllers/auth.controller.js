@@ -98,7 +98,84 @@ const register = async (req, res) => {
 
 };
 
+const updateprofile = async (req,res)=>{
+     let {
+        username,
+        name,
+        email,
+    } = req.body;
+try{  
+    const user = await userModel.findOneAndUpdate(
+        {_id: req.user.userid},
+        {username:username,
+        name : name,
+        email: email   
+        },
+        {new: true}
+    )
+    if(!user){
+        return res.status(404).json({
+            success : false,
+            message : "user not found"
+        })
+    }
+    return res.status(200).json({
+        success: true,
+        message : "update successfully",
+        user: user
+    })
+} catch(error){
+    return res.status(500).json({
+        success: false,
+        message: error.message,
+    });
+}
 
+}
+
+const updatepassword = async(req,res)=>{
+    let {
+        currentpassword, 
+        newpassword
+    }= req.body;
+    try{
+         const user = await userModel.findById(req.user.userid)
+
+         if(!user){
+            return res.status(404).json({
+                success : false,
+                message: "user not found"
+            })
+         }
+
+         const isMatch = await bcrypt.compare(currentpassword, user.password);
+
+         if(!isMatch){
+            return res.status(400).json({
+                success: false,
+                message : "Current password is incorrect"
+            });
+        }
+            const salt = await bcrypt.genSalt(10);
+
+            const hash = await bcrypt.hash(newpassword, salt);
+
+            user.password = hash;
+
+            await user.save();
+
+            return res.status(200).json({
+                success: true,
+                message: "Password updated successfully"
+            });
+}catch(error){
+        return res.status(500).json({
+            success : false,
+            message : error.message
+        })
+}
+
+} 
 const logout = (req, res) => {
     res.cookie("token", "");
     res.status(200).json({
@@ -113,4 +190,6 @@ module.exports = {
     login,
     register,
     logout,
+    updateprofile,
+    updatepassword
 };
