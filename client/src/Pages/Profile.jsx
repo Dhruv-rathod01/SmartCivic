@@ -7,10 +7,6 @@ import {
   FaUserCircle,
   FaEdit ,
   FaUnlockAlt,
-  FaEnvelope,
-  FaUser,
-  FaFileAlt,
-  FaClock,
 } from "react-icons/fa";
 
 const Profile = () => {
@@ -42,11 +38,7 @@ const [passwordForm, setPasswordForm] = useState({
         });
 
         setUser(response.data.user);
-        setEditForm({
-          name: response.data.user.name || "",
-          username: response.data.user.username || "",
-          email: response.data.user.email || ""
-        });
+        
       } catch (error) {
         console.log(error.response?.data?.message || error.message);
       } finally {
@@ -56,19 +48,25 @@ const [passwordForm, setPasswordForm] = useState({
 
     fetchProfile();
   }, []);
+
   const handleEditProfile = async (e) => {
   e.preventDefault();
 
   try {
-    const response = await axios.put(
+    const response = await axios.post(
       `${API_URL}/update-profile`,
       editForm,
       { withCredentials: true }
     );
 
     setUser(response.data.user);
+    setEditForm({
+          name: "",
+          username:"",
+          email: ""
+        });
     setEditOpen(false);
-
+    
     alert("Profile updated successfully!");
   } catch (error) {
     alert(error.response?.data?.message || "Update failed");
@@ -83,16 +81,16 @@ const handleChangePassword = async (e) => {
     return alert("New passwords do not match");
   }
 
-  if (passwordForm.newPassword.length < 8) {
-    return alert("Password must be at least 8 characters");
+  if (passwordForm.newPassword.length < 6) {
+    return alert("Password must be at least 6 characters");
   }
 
   try {
-    const response = await axios.put(
-      `${API_URL}/change-password`,
+    const response = await axios.post(
+      `${API_URL}/update-password`,
       {
-        currentPassword: passwordForm.currentPassword,
-        newPassword: passwordForm.newPassword
+      currentpassword: passwordForm.currentPassword,
+  newpassword: passwordForm.newPassword
       },
       { withCredentials: true }
     );
@@ -130,7 +128,7 @@ const handleChangePassword = async (e) => {
           
           <div className="mb-8">
             <div className="flex items-center justify-between">
-              <h1 className="text-3xl font-bold text-white">
+              <h1 className="text-3xl font-bold md:text-4xl">
                 Your Profile
               </h1>
 
@@ -384,7 +382,7 @@ const handleChangePassword = async (e) => {
               newPassword: e.target.value
             })
           }
-          minLength={8}
+          minLength={6}
           required
           className="w-full bg-[#050d0b] border border-white/10 rounded-xl p-3 text-white outline-none focus:border-emerald-500"
         />
@@ -399,7 +397,7 @@ const handleChangePassword = async (e) => {
               confirmPassword: e.target.value
             })
           }
-          minLength={8}
+          minLength={6}
           required
           className="w-full bg-[#050d0b] border border-white/10 rounded-xl p-3 text-white outline-none focus:border-emerald-500"
         />

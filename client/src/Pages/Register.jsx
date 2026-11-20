@@ -103,6 +103,7 @@ const Register = () => {
             type="password"
             name="password"
             value={password} onChange={(e)=> setPassword(e.target.value)}
+            minLength={6}
             required
             placeholder="Create a strong password"
             className="w-full rounded-lg border border-zinc-700 bg-zinc-800  py-3 pl-12 outline-none transition focus:border-emerald-400"
