@@ -7,7 +7,8 @@ import ForgotPassword from "./Pages/Forgot-Password";
 import Report from "./Pages/Report-issue";
 import Myreport from "./Pages/My-reports";
 import Help from "./Pages/Help";
-import Complain from "./Pages/Complain"
+import Complain from "./Pages/Complain";
+import Chatbot from "./Pages/Chatbot"
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./Components/ProtectedRoute";
 
@@ -24,6 +25,7 @@ const App =()=>{
   <Route path="/report-issue" element={<Report />} />
   <Route path="/my-reports" element={<Myreport />} />
   <Route path="/help" element={<Help />} />
+  <Route path="/chatbot" element={<Chatbot />} />
   <Route path="/complain" element={<Complain />} />
   </Route>
 </Routes>

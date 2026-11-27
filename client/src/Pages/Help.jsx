@@ -42,6 +42,7 @@ const faqs = [
 ];
 
 const Help = () => {
+  
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [openIndex, setOpenIndex] = useState(0);

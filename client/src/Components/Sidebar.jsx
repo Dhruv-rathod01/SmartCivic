@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { BsWechat } from "react-icons/bs";
 import {
   HiOutlineHome,
   HiOutlineClipboardDocumentList,
@@ -25,6 +26,7 @@ const Sidebar = ({ isOpen = true }) => {
   const accountItems = [
     { name: "Profile", path: "/profile", icon: HiOutlineUser },
     { name: "Help & Support", path: "/help", icon: HiOutlineQuestionMarkCircle },
+    { name: "Chatbot", path: "/chatbot", icon: BsWechat },
   ];
 
   const handleLogout = async () => {
@@ -56,8 +58,8 @@ const Sidebar = ({ isOpen = true }) => {
           isOpen ? "gap-3.5 px-3.5" : "justify-center px-0"
         } ${
           isActive
-            ? "bg-zinc-800/95 text-white border border-zinc-700/80 shadow-sm"
-            : "text-zinc-400 hover:bg-zinc-900/90 hover:text-zinc-100 border border-transparent"
+            ? "border border-zinc-700/80 bg-zinc-800/95 text-white shadow-sm"
+            : "border border-transparent text-zinc-400 hover:bg-zinc-900/90 hover:text-zinc-100"
         }`}
       >
         {/* Left Amber Accent Bar on Active Item */}
@@ -66,7 +68,7 @@ const Sidebar = ({ isOpen = true }) => {
         )}
 
         <Icon
-          className={`text-xl shrink-0 transition-colors ${
+          className={`shrink-0 text-xl transition-colors ${
             isActive
               ? "text-amber-400"
               : "text-zinc-500 group-hover:text-zinc-200"
@@ -92,7 +94,7 @@ const Sidebar = ({ isOpen = true }) => {
 
   return (
     <aside
-      className={`fixed left-0 top-16 z-40 flex h-[calc(100vh-4rem)] flex-col justify-between border-r border-zinc-800/80 bg-[#0f131a] py-5 text-zinc-100 select-none transition-all duration-300 ${
+      className={`fixed left-0 top-16 z-40 flex h-[calc(100vh-4rem)] select-none flex-col justify-between border-r border-zinc-800/80 bg-[#0f131a] py-5 text-zinc-100 transition-all duration-300 ${
         isOpen ? "w-60 px-4" : "w-20 px-3"
       }`}
     >
@@ -101,7 +103,7 @@ const Sidebar = ({ isOpen = true }) => {
         {/* Workspace Links */}
         <div>
           {isOpen && (
-            <p className="px-3.5 mb-2 text-[10px] font-semibold uppercase tracking-widest text-zinc-500">
+            <p className="mb-2 px-3.5 text-[10px] font-semibold uppercase tracking-widest text-zinc-500">
               Workspace
             </p>
           )}
@@ -114,7 +116,7 @@ const Sidebar = ({ isOpen = true }) => {
         {/* Account Links */}
         <div>
           {isOpen && (
-            <p className="px-3.5 mb-2 text-[10px] font-semibold uppercase tracking-widest text-zinc-500">
+            <p className="mb-2 px-3.5 text-[10px] font-semibold uppercase tracking-widest text-zinc-500">
               Account
             </p>
           )}
@@ -131,7 +133,7 @@ const Sidebar = ({ isOpen = true }) => {
             isOpen ? "gap-3.5 px-3.5" : "justify-center px-0"
           }`}
         >
-          <HiOutlineArrowRightOnRectangle className="text-xl shrink-0" />
+          <HiOutlineArrowRightOnRectangle className="shrink-0 text-xl" />
           {isOpen ? (
             <span className="whitespace-nowrap">Sign out</span>
           ) : (
