@@ -1,7 +1,5 @@
 const userModel = require("../models/user");
-const home = (req, res) => {
-    res.json({ success: true });
-};
+
 
 const profile = async (req,res)=>{
     const data = await userModel.findOne({
@@ -13,7 +11,6 @@ const profile = async (req,res)=>{
     });
 }
 module.exports = {
-    home,
     profile
    
 };

@@ -37,7 +37,6 @@ app.use("/", postRoutes);
 
 
 
-
 app.listen(3000, () => {
     console.log("Work");
 });

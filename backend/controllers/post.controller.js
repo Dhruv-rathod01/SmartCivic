@@ -68,10 +68,36 @@ const likePost = async (req, res) => {
 
     res.redirect("/profile");
 };
+ 
+const home = async (req, res) => {
+    
+    try {
 
+        const posts = await postModel
+            .find()
+            .populate("user", "name username")
+            .sort({ date: -1 });
+
+
+        return res.status(200).json({
+            success: true,
+            posts,
+            currentUserId: req.user.userid
+        });
+
+    } catch (error) {
+        console.log("Home error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
 
 module.exports = {
     createPost,
     likePost,
-    getMyReports
+    getMyReports,
+    home
 };
