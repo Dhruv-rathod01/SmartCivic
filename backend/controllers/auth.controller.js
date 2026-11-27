@@ -29,7 +29,11 @@ const login = async (req, res) => {
                 process.env.JWT_SECRET
             );
 
-            res.cookie("token", token);
+           res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+});
 
             res.status(200).json({
                  success: true,
@@ -86,7 +90,11 @@ const register = async (req, res) => {
                 process.env.JWT_SECRET
             );
 
-            res.cookie("token", token);
+           res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+});
 
           return res.status(200).json({
         success: true,
