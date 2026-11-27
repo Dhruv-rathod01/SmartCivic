@@ -9,13 +9,14 @@ import Myreport from "./Pages/My-reports";
 import Help from "./Pages/Help";
 import Complain from "./Pages/Complain";
 import Chatbot from "./Pages/Chatbot"
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./Components/ProtectedRoute";
 
 const App =()=>{
   return (
     <div className="min-h-screen bg-zinc-900 flex items-center justify-center">
       <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
   <Route path="/login" element={<Login />} />
    <Route path="/forgot-password" element={<ForgotPassword />} />
   <Route path="/Register" element={<Register />} />
