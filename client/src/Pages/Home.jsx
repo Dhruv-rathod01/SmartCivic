@@ -6,8 +6,10 @@ import Sidebar from "../Components/Sidebar";
 import { FaSearch } from "react-icons/fa";
 
 const Home = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeSearch, setActiveSearch] = useState("");
 
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
@@ -23,63 +25,89 @@ const Home = () => {
       .catch(() => {
         navigate("/login", { replace: true });
       });
-  }, []);
+  }, [API_URL, navigate]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setActiveSearch(searchQuery.trim());
+  };
+
   return (
-    <div className="w-full min-h-screen bg-[#050d0b] pt-16">
+    <div className="min-h-screen w-full bg-[#0d1015] pt-16 text-zinc-100">
       <Nav onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
 
-          <div className="flex">
-      <div
-        className={`shrink-0 transition-all duration-300 ${
-          sidebarOpen ? "w-60" : "w-0"
-        }`}
-      >
-        {sidebarOpen && <Sidebar />}
-      </div>
+      <div className="flex">
+        <div
+          className={`shrink-0 transition-all duration-300 ${
+            sidebarOpen ? "w-60" : "w-20"
+          }`}
+        >
+          <Sidebar isOpen={sidebarOpen} />
+        </div>
 
-        
-      <main className="flex-1 p-8 text-white">
-        {loading ? (
-          <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-zinc-700 border-t-emerald-400" />
-            <p className="text-sm text-zinc-400">
-              Loading your dashboard...
-            </p>
-          </div>
-        ) : (
-          <>
-            <h1 className="text-3xl font-bold">
-              Find Issues in Your City
-            </h1>
+        <main className="min-w-0 flex-1 p-5 text-white md:p-8 lg:p-8">
+          {loading ? (
+            <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-zinc-800 border-t-amber-400" />
+              <p className="text-sm text-zinc-400">
+                Loading your dashboard...
+              </p>
+            </div>
+          ) : (
+            <>
+              <h1 className="text-3xl font-bold md:text-4xl">
+                Find Issues in Your <span className="text-amber-400">City</span>
+              </h1>
 
-            <p className="mt-2 text-zinc-400">
-              Report civic issues and help make your community better...
-            </p>
+              <p className="mt-2 text-zinc-400">
+                Report civic issues and help make your community better...
+              </p>
 
-            <div className="mt-5 flex w-full items-center gap-3">
-              <div className="flex w-3/4 items-center gap-3 rounded-xl border border-zinc-700 bg-[#0b1714] px-4 py-3 focus-within:border-emerald-500">
-                <FaSearch />
-                <input
-                  className="w-full bg-transparent text-white outline-none"
-                  type="text"
-                  placeholder="Search issues, location"
-                />
+              <form
+                onSubmit={handleSearch}
+                className="mt-5 flex w-full flex-col gap-3 sm:flex-row sm:items-center"
+              >
+                <div className="flex w-full items-center gap-3 rounded-xl border border-zinc-800 bg-[#131720] px-4 py-3 transition focus-within:border-amber-400 sm:w-3/4">
+                  <FaSearch className="text-zinc-400" />
+                  <input
+                    className="w-full bg-transparent text-white placeholder:text-zinc-500 outline-none"
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search issues, location"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="cursor-pointer rounded-xl bg-amber-400 px-9 py-3 font-semibold text-zinc-950 transition hover:bg-amber-300"
+                >
+                  Search
+                </button>
+              </form>
+
+              <div className="mt-10 flex flex-wrap items-center justify-between gap-3">
+                <h2 className="text-2xl font-bold md:text-3xl">
+                  Recent Issues
+                </h2>
+                {activeSearch && (
+                  <span className="text-sm text-zinc-400">
+                    Showing results for{" "}
+                    <span className="font-medium text-amber-400">
+                      “{activeSearch}”
+                    </span>
+                  </span>
+                )}
               </div>
 
-              <button className="cursor-pointer rounded-xl bg-emerald-500 px-9 py-3 text-white hover:bg-emerald-600">
-                Search
-              </button>
-            </div>
-
-            <h2 className="mt-10 text-3xl font-semibold">
-              Recent Issues
-            </h2>
-          </>
-        )}
-      </main>
-
-        
-       
+              <div className="mt-5 rounded-xl border border-zinc-800 bg-[#131720] p-6 text-sm text-zinc-400">
+                {activeSearch
+                  ? `No recent issues match "${activeSearch}" yet.`
+                  : "Recent community reports will appear here as they are published."}
+              </div>
+            </>
+          )}
+        </main>
       </div>
     </div>
   );

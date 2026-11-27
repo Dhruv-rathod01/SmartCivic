@@ -1,419 +1,349 @@
-
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Nav from "../Components/Nav";
 import Sidebar from "../Components/Sidebar";
-import { useState } from "react";
-
 import {
-  FaSearch,
-  FaFileAlt,
-  FaClipboardList,
-  FaUserCircle,
-  FaShieldAlt,
-  FaChevronDown,
-  FaChevronUp,
-  FaEnvelope,
-  FaHeadset,
-  FaArrowRight,
   FaQuestionCircle,
-  FaRegLightbulb,
-  FaTimes,
+  FaChevronDown,
+  FaPlusCircle,
+  FaClipboardList,
+  FaHeadset,
+  FaSearch,
+  FaPhoneAlt,
+  FaEnvelope,
 } from "react-icons/fa";
 
+const faqs = [
+  {
+    question: "How do I submit a new civic issue report?",
+    answer:
+      "Click 'Report Issue' in the sidebar or 'Report New Issue' on the dashboard, choose a category, upload or capture a clear photo, enter the exact location and description, then submit.",
+  },
+  {
+    question: "What do Pending, In Progress, and Resolved statuses mean?",
+    answer:
+      "Pending means your report has been received and is awaiting review. In Progress means municipal teams are actively working on the issue. Resolved means the concern has been addressed and closed.",
+  },
+  {
+    question: "Why should I include a clear photo and exact landmark/location?",
+    answer:
+      "Clear photos in good lighting and specific street or landmark details help field teams verify the issue faster and bring the right equipment on the first visit.",
+  },
+  {
+    question: "How can I update my profile details or change my password?",
+    answer:
+      "Open Profile from the top-right avatar or the sidebar, then use Edit Profile to update your name, username, or email, or Change Password to set a new password.",
+  },
+  {
+    question: "What should I do in an immediate life-threatening emergency?",
+    answer:
+      "SmartCivic is designed for civic infrastructure and community reporting. For immediate medical, fire, police, or life-threatening emergencies, always contact local emergency services directly.",
+  },
+];
+
 const Help = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [openFaq, setOpenFaq] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [openIndex, setOpenIndex] = useState(0);
 
-  const categories = [
-    {
-      title: "Reporting Issues",
-      description: "Learn how to submit civic complaints.",
-      icon: <FaFileAlt />,
-      color: "text-emerald-400",
-    },
-    {
-      title: "Tracking Reports",
-      description: "Understand complaint status and progress.",
-      icon: <FaClipboardList />,
-      color: "text-blue-400",
-    },
-    {
-      title: "Account & Profile",
-      description: "Manage your account and personal details.",
-      icon: <FaUserCircle />,
-      color: "text-purple-400",
-    },
-    {
-      title: "Privacy & Security",
-      description: "Keep your account and information safe.",
-      icon: <FaShieldAlt />,
-      color: "text-orange-400",
-    },
-  ];
-
-  const faqs = [
-    {
-      category: "Reporting Issues",
-      question: "How can I report a civic issue?",
-      answer:
-        "Go to the Report Issue page, select the issue category, enter a description, upload a photo if available, add the location and submit your complaint.",
-    },
-    {
-      category: "Reporting Issues",
-      question: "Can I upload photos with my complaint?",
-      answer:
-        "Yes. You can attach relevant photos to help administrators understand the civic issue more clearly.",
-    },
-    {
-      category: "Reporting Issues",
-      question: "Which types of issues can I report?",
-      answer:
-        "You can report issues related to garbage, water supply, drainage, roads, streetlights, parks, sanitation and other available categories.",
-    },
-    {
-      category: "Tracking Reports",
-      question: "How can I track my submitted complaints?",
-      answer:
-        "Open My Reports from the sidebar. You can view your submitted complaints and check their latest status.",
-    },
-    {
-      category: "Tracking Reports",
-      question: "What does Pending status mean?",
-      answer:
-        "Pending means your complaint has been submitted and is waiting for review.",
-    },
-    {
-      category: "Tracking Reports",
-      question: "What does In Progress status mean?",
-      answer:
-        "It means your complaint has been reviewed and work on the reported issue has started.",
-    },
-    {
-      category: "Tracking Reports",
-      question: "What does Resolved status mean?",
-      answer:
-        "It means the reported issue has been marked as resolved by the responsible administrator.",
-    },
-    {
-      category: "Account & Profile",
-      question: "How can I update my profile details?",
-      answer:
-        "Go to Profile, open Edit Profile and update your name, username or email address.",
-    },
-    {
-      category: "Account & Profile",
-      question: "How can I change my password?",
-      answer:
-        "Open Profile, select Change Password, enter your current password and choose a new password.",
-    },
-    {
-      category: "Privacy & Security",
-      question: "Is my personal information secure?",
-      answer:
-        "SmartCivic uses account authentication and password protection to help secure user accounts. Avoid sharing your login credentials with anyone.",
-    },
-  ];
-
-  const filteredFaqs = faqs.filter((faq) => {
-    const matchesSearch =
-      faq.question.toLowerCase().includes(search.toLowerCase()) ||
-      faq.answer.toLowerCase().includes(search.toLowerCase());
-
-    const matchesCategory =
-      activeCategory === "All" || faq.category === activeCategory;
-
-    return matchesSearch && matchesCategory;
+  const [supportForm, setSupportForm] = useState({
+    subject: "",
+    category: "Report & Status",
+    message: "",
   });
+  const [sent, setSent] = useState(false);
 
-  const handleCategory = (category) => {
-    setActiveCategory(category);
-    setOpenFaq(null);
+  const filteredFaqs = faqs.filter(
+    (item) =>
+      item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.answer.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-    document.getElementById("faq-section")?.scrollIntoView({
-      behavior: "smooth",
+  const handleSupportSubmit = (e) => {
+    e.preventDefault();
+    setSent(true);
+    setSupportForm({
+      subject: "",
+      category: "Report & Status",
+      message: "",
     });
+    setTimeout(() => {
+      setSent(false);
+    }, 3500);
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#050d0b] pt-16">
+    <div className="min-h-screen w-full bg-[#0d1015] pt-16 text-zinc-100">
       <Nav onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
 
       <div className="flex">
         <div
           className={`shrink-0 transition-all duration-300 ${
-            sidebarOpen ? "w-60" : "w-0"
+            sidebarOpen ? "w-60" : "w-20"
           }`}
         >
-          {sidebarOpen && <Sidebar />}
+          <Sidebar isOpen={sidebarOpen} />
         </div>
 
-        {/* Main Content */}
-        <main className="min-w-0 flex-1 px-5 py-8 md:px-8">
-
-          {/* Page Header */}
-          <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-white">
-                Help & Support
+        <main className="min-w-0 flex-1 p-6 text-white md:p-10">
+          {/* Header */}
+          <div className="mb-8">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <h1 className="text-3xl font-bold md:text-4xl">
+                Help & <span className="text-amber-400">Support</span>
               </h1>
-              <p className="mt-2 text-sm text-slate-400">
-                Find answers and get help using SmartCivic.
-              </p>
+
+              <span className="flex items-center gap-2 rounded-full border border-amber-400/20 bg-amber-400/10 px-3 py-1.5 text-sm font-medium text-amber-300">
+                <FaQuestionCircle className="text-base" />
+                Citizen Guide
+              </span>
             </div>
 
-            <div className="flex w-fit items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-400">
-              <FaQuestionCircle />
-              Support Center
-            </div>
+            <p className="mt-3 text-zinc-400">
+              Find answers to common questions, learn how reports are handled, or reach out for assistance.
+            </p>
           </div>
 
-          {/* Search Section */}
-          <section className="relative mb-10 overflow-hidden rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-[#10241e] to-[#0b1715] p-6 md:p-10">
-            <div className="relative z-10 mx-auto max-w-2xl text-center">
-              <div className="mb-3 flex justify-center">
-                <div className="rounded-2xl bg-emerald-500/10 p-3 text-emerald-400">
-                  <FaRegLightbulb size={27} />
+          
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <Link
+              to="/report-issue"
+              className="group flex items-center justify-between rounded-2xl border border-zinc-800 bg-[#131720] p-5 transition hover:border-amber-400/50"
+            >
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-400/10 text-amber-400">
+                  <FaPlusCircle className="text-xl" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-white group-hover:text-amber-300 transition">
+                    Report a New Issue
+                  </h2>
+                  <p className="text-sm text-zinc-400">
+                    Submit a photo, location, and details for a local concern.
+                  </p>
                 </div>
               </div>
+              <span className="text-xl text-zinc-400 group-hover:text-amber-400 transition">
+                ›
+              </span>
+            </Link>
 
-              <h2 className="text-2xl font-bold text-white md:text-3xl">
-                How can we help you?
+            <Link
+              to="/my-reports"
+              className="group flex items-center justify-between rounded-2xl border border-zinc-800 bg-[#131720] p-5 transition hover:border-amber-400/50"
+            >
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-400/10 text-amber-400">
+                  <FaClipboardList className="text-xl" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-white group-hover:text-amber-300 transition">
+                    Track Submitted Reports
+                  </h2>
+                  <p className="text-sm text-zinc-400">
+                    Check live progress across Pending, In Progress, and Resolved items.
+                  </p>
+                </div>
+              </div>
+              <span className="text-xl text-zinc-400 group-hover:text-amber-400 transition">
+                ›
+              </span>
+            </Link>
+          </div>
+
+         
+          <section className="mt-8">
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
+              <h2 className="text-xl font-bold text-white">
+                Frequently Asked Questions
               </h2>
 
-              <p className="mt-2 text-sm text-slate-400">
-                Search for guides, questions or common problems.
-              </p>
-
-              <div className="mt-6 flex items-center rounded-xl border border-slate-700 bg-[#081310] px-4 py-3 focus-within:border-emerald-500">
-                <FaSearch className="shrink-0 text-slate-500" />
-
+              <div className="relative w-full sm:w-72">
+                <FaSearch className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-zinc-500" />
                 <input
                   type="text"
-                  value={search}
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                    setActiveCategory("All");
-                    setOpenFaq(null);
-                  }}
-                  placeholder="Search your question here..."
-                  className="ml-3 w-full bg-transparent text-sm text-white outline-none placeholder:text-slate-500"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search help topics..."
+                  className="w-full rounded-xl border border-zinc-800 bg-[#131720] py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-zinc-500 outline-none transition focus:border-amber-400"
                 />
-
-                {search && (
-                  <button
-                    type="button"
-                    onClick={() => setSearch("")}
-                    className="text-slate-400 hover:text-white"
-                  >
-                    <FaTimes />
-                  </button>
-                )}
               </div>
             </div>
 
-            <div className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-emerald-500/5 blur-3xl" />
-          </section>
-
-          {/* Help Categories */}
-          <section className="mb-10">
-            <div className="mb-5">
-              <h2 className="text-xl font-bold text-white">
-                Browse Help Topics
-              </h2>
-              <p className="mt-1 text-sm text-slate-400">
-                Select a category to find relevant answers.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              {categories.map((item) => (
-                <button
-                  key={item.title}
-                  type="button"
-                  onClick={() => handleCategory(item.title)}
-                  className={`group rounded-xl border p-5 text-left transition duration-300 hover:-translate-y-1 hover:border-emerald-500/40 hover:bg-[#10201b] ${
-                    activeCategory === item.title
-                      ? "border-emerald-500/50 bg-[#10201b]"
-                      : "border-slate-800 bg-[#0b1715]"
-                  }`}
-                >
-                  <div
-                    className={`mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 text-xl ${item.color}`}
-                  >
-                    {item.icon}
-                  </div>
-
-                  <h3 className="font-semibold text-white">
-                    {item.title}
-                  </h3>
-
-                  <p className="mt-2 text-xs leading-5 text-slate-400">
-                    {item.description}
-                  </p>
-
-                  <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-emerald-400">
-                    Explore guides
-                    <FaArrowRight className="transition group-hover:translate-x-1" />
-                  </div>
-                </button>
-              ))}
-            </div>
-          </section>
-
-          {/* FAQ Section */}
-          <section id="faq-section" className="mb-10 scroll-mt-6">
-            <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-              <div>
-                <h2 className="text-xl font-bold text-white">
-                  Frequently Asked Questions
-                </h2>
-                <p className="mt-1 text-sm text-slate-400">
-                  Find quick answers to common questions.
-                </p>
-              </div>
-
-              <button
-                onClick={() => {
-                  setActiveCategory("All");
-                  setSearch("");
-                  setOpenFaq(null);
-                }}
-                className="w-fit text-xs font-semibold text-emerald-400 hover:text-emerald-300"
-              >
-                Clear filters
-              </button>
-            </div>
-
-            {/* Category Filters */}
-            <div className="mb-5 flex gap-2 overflow-x-auto pb-2">
-              {["All", ...categories.map((item) => item.title)].map(
-                (category) => (
-                  <button
-                    key={category}
-                    onClick={() => {
-                      setActiveCategory(category);
-                      setOpenFaq(null);
-                    }}
-                    className={`shrink-0 rounded-full border px-4 py-2 text-xs font-medium transition ${
-                      activeCategory === category
-                        ? "border-emerald-500 bg-emerald-500 text-[#04110d]"
-                        : "border-slate-700 bg-[#0b1715] text-slate-400 hover:border-emerald-500/50 hover:text-white"
-                    }`}
-                  >
-                    {category}
-                  </button>
-                )
-              )}
-            </div>
-
-            {/* FAQ Accordion */}
             <div className="space-y-3">
-              {filteredFaqs.length > 0 ? (
-                filteredFaqs.map((faq, index) => (
-                  <div
-                    key={faq.question}
-                    className="overflow-hidden rounded-xl border border-slate-800 bg-[#0b1715] transition hover:border-slate-700"
-                  >
-                    <button
-                      onClick={() =>
-                        setOpenFaq(openFaq === index ? null : index)
-                      }
-                      className="flex w-full items-center justify-between gap-4 p-5 text-left"
+              {filteredFaqs.length === 0 ? (
+                <div className="rounded-2xl border border-zinc-800 bg-[#131720] p-6 text-sm text-zinc-400">
+                  No matching questions found for “{searchQuery}”.
+                </div>
+              ) : (
+                filteredFaqs.map((faq, index) => {
+                  const isExpanded = openIndex === index;
+                  return (
+                    <div
+                      key={faq.question}
+                      className="overflow-hidden rounded-2xl border border-zinc-800 bg-[#131720]"
                     >
-                      <div>
-                        <span className="mb-2 block text-[10px] font-semibold uppercase tracking-wider text-emerald-400">
-                          {faq.category}
-                        </span>
-
-                        <span className="text-sm font-semibold text-slate-100">
+                      <button
+                        type="button"
+                        onClick={() => setOpenIndex(isExpanded ? -1 : index)}
+                        className="flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left transition hover:bg-[#171c27]"
+                      >
+                        <span className="font-semibold text-white">
                           {faq.question}
                         </span>
-                      </div>
+                        <FaChevronDown
+                          className={`shrink-0 text-sm text-amber-400 transition-transform duration-200 ${
+                            isExpanded ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
 
-                      <span className="shrink-0 text-emerald-400">
-                        {openFaq === index ? (
-                          <FaChevronUp />
-                        ) : (
-                          <FaChevronDown />
-                        )}
-                      </span>
-                    </button>
-
-                    {openFaq === index && (
-                      <div className="border-t border-slate-800 px-5 py-4">
-                        <p className="text-sm leading-7 text-slate-400">
+                      {isExpanded && (
+                        <div className="border-t border-zinc-800/80 px-5 py-4 text-sm leading-6 text-zinc-400">
                           {faq.answer}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <div className="rounded-xl border border-slate-800 bg-[#0b1715] px-5 py-12 text-center">
-                  <FaSearch className="mx-auto mb-3 text-3xl text-slate-600" />
-                  <h3 className="font-semibold text-white">
-                    No results found
-                  </h3>
-                  <p className="mt-2 text-sm text-slate-400">
-                    Try searching with different keywords.
-                  </p>
-                  <button
-                    onClick={() => {
-                      setSearch("");
-                      setActiveCategory("All");
-                    }}
-                    className="mt-4 text-sm font-semibold text-emerald-400"
-                  >
-                    Clear search
-                  </button>
-                </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
               )}
             </div>
           </section>
 
-          {/* Contact Support */}
-          <section className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-
-            <div className="rounded-xl border border-slate-800 bg-[#0b1715] p-6">
-              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10 text-xl text-emerald-400">
-                <FaEnvelope />
+        
+          <section className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-12">
+            <div className="rounded-2xl border border-zinc-800 bg-[#131720] p-6 lg:col-span-7">
+              <div className="mb-5 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-400/10 text-amber-400">
+                  <FaHeadset className="text-lg" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-white">
+                    Contact Support
+                  </h2>
+                  <p className="text-sm text-zinc-400">
+                    Need help with an account issue or report status? Send us a note.
+                  </p>
+                </div>
               </div>
 
-              <h3 className="text-lg font-bold text-white">
-                Email Support
-              </h3>
+              <form onSubmit={handleSupportSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1.5 block text-sm font-medium text-zinc-300">
+                      Topic
+                    </label>
+                    <select
+                      value={supportForm.category}
+                      onChange={(e) =>
+                        setSupportForm({
+                          ...supportForm,
+                          category: e.target.value,
+                        })
+                      }
+                      className="w-full rounded-xl border border-zinc-800 bg-[#0d1015] p-3 text-sm text-white outline-none focus:border-amber-400"
+                    >
+                      <option value="Report & Status">Report & Status</option>
+                      <option value="Account & Login">Account & Login</option>
+                      <option value="Photo or Location Issue">
+                        Photo or Location Issue
+                      </option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
 
-              <p className="mt-2 text-sm leading-6 text-slate-400">
-                Need assistance with your account or reported issue?
-                Contact our support team through email.
-              </p>
+                  <div>
+                    <label className="mb-1.5 block text-sm font-medium text-zinc-300">
+                      Subject
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={supportForm.subject}
+                      onChange={(e) =>
+                        setSupportForm({
+                          ...supportForm,
+                          subject: e.target.value,
+                        })
+                      }
+                      placeholder="Brief summary of your question"
+                      className="w-full rounded-xl border border-zinc-800 bg-[#0d1015] p-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-amber-400"
+                    />
+                  </div>
+                </div>
 
-              <p className="mt-4 text-xs text-slate-500">
-                Add your official support email here.
-              </p>
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-zinc-300">
+                    Message
+                  </label>
+                  <textarea
+                    rows={4}
+                    required
+                    value={supportForm.message}
+                    onChange={(e) =>
+                      setSupportForm({
+                        ...supportForm,
+                        message: e.target.value,
+                      })
+                    }
+                    placeholder="Describe what you need help with..."
+                    className="w-full resize-none rounded-xl border border-zinc-800 bg-[#0d1015] p-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-amber-400"
+                  />
+                </div>
+
+                {sent && (
+                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-sm text-emerald-300">
+                    Your support request has been noted. Our team will review it shortly.
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className="w-full cursor-pointer rounded-xl bg-amber-400 py-3 font-semibold text-zinc-950 transition hover:bg-amber-300 sm:w-auto sm:px-6"
+                >
+                  Send Support Message
+                </button>
+              </form>
             </div>
 
-            <div className="rounded-xl border border-emerald-500/20 bg-gradient-to-br from-[#10241e] to-[#0b1715] p-6">
-              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10 text-xl text-emerald-400">
-                <FaHeadset />
+            <div className="flex flex-col justify-between rounded-2xl border border-zinc-800 bg-[#131720] p-6 lg:col-span-5">
+              <div>
+                <h2 className="text-xl font-bold text-white">
+                  Direct Channels
+                </h2>
+                <p className="mt-1.5 text-sm text-zinc-400">
+                  Reach the SmartCivic help desk during standard civic service hours.
+                </p>
+
+                <div className="mt-5 space-y-3">
+                  <div className="rounded-xl border border-zinc-800 bg-[#0d1015] p-4">
+                    <div className="flex items-center gap-3 text-sm font-semibold text-white">
+                      <FaEnvelope className="text-amber-400" />
+                      <span>Support Email</span>
+                    </div>
+                    <p className="mt-1 pl-7 text-sm text-zinc-400">
+                      support@smartcivic.org
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl border border-zinc-800 bg-[#0d1015] p-4">
+                    <div className="flex items-center gap-3 text-sm font-semibold text-white">
+                      <FaPhoneAlt className="text-amber-400" />
+                      <span>Citizen Helpline</span>
+                    </div>
+                    <p className="mt-1 pl-7 text-sm text-zinc-400">
+                      1800-11-2484 (Mon–Sat, 9:00 AM – 6:00 PM)
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              <h3 className="text-lg font-bold text-white">
-                Still need help?
-              </h3>
-
-              <p className="mt-2 text-sm leading-6 text-slate-400">
-                If you cannot find the answer to your question,
-                submit a support request and explain your problem.
-              </p>
-
-              <p className="mt-4 text-xs text-emerald-400">
-                Support request feature can be connected to your backend.
-              </p>
+              <div className="mt-6 rounded-xl border border-amber-400/20 bg-amber-400/10 p-4 text-xs leading-5 text-amber-200">
+                <strong className="font-semibold text-amber-300">Tip:</strong>{" "}
+                If your question is about an existing report, include the category and location so it is easier to locate.
+              </div>
             </div>
           </section>
-
         </main>
       </div>
     </div>
