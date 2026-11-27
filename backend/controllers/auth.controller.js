@@ -6,13 +6,14 @@ const userModel = require("../models/user");
 
 const login = async (req, res) => {
 
-    let { email, password } = req.body;
+    let {username, email, password } = req.body;
 
-    let user = await userModel.findOne({ email });
+    let user = await userModel.findOne({username, email });
+    
 
     if (!user) {
         return res.status(404).json( {
-            message: "Something went wrong"
+            message: "Invalid username or email"
         });
     }
 
